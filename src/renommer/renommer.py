@@ -1,12 +1,12 @@
-import os
+from pathlib import Path
 
-def renommer(file_path: str, new_name: str) -> int :
+def renommer(file_path: Path, new_name: str) :
     """Renomme le fichier avec le nom donné
 
     Parameters
     ----------
-    file_path : str
-        Chemin du fichier à renommer
+    file_path : Path
+        Chemin du fichier à renommer au format Path de pathlib
     new_name : str
         Nouveau nom du fichier (sans le path)
 
@@ -19,17 +19,9 @@ def renommer(file_path: str, new_name: str) -> int :
     """
 
     # Vérification de la présence du fichier source
-    if not os.path.isfile(file_path) :
+    if not file_path.exists() :
         return 2
     
-    # Récupération du chemin du répertoire du fichier
-    dir_path = os.path.dirname(file_path)
-
-    try :
-        os.rename(file_path, dir_path + "/" + new_name)
-    except FileNotFoundError :
-        return 2
-    except PermissionError :
-        return 3
+    file_path.rename(file_path.parent / new_name)
     
     return 0
