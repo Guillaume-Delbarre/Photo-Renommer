@@ -101,7 +101,7 @@ def renommer_dir(dir: Path, date_prefix: str, nom_suffix: str, val_start: int, o
     files = get_all_files(dir)
     ordered_files = order_files(files, order_by)
 
-    nb_fill = max(2, len(str(len(ordered_files))))
+    nb_fill = max(2, len(str(len(ordered_files) + val_start - 1)))
 
     for index, file in enumerate(ordered_files) :
         val = str(val_start + index).zfill(nb_fill)

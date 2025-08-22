@@ -1,16 +1,29 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from pathlib import Path
+import sys
 
 from renommer.renommer import renommer_dir
 
 def main() -> None :
+
+    def resource_path(relative_path:str) -> Path:
+        """Retourne le chemin absolu correct du fichier, que ce soit en dev ou en EXE PyInstaller."""
+        if getattr(sys, 'frozen', False):
+            # Chemin temporaire PyInstaller
+            base_path = Path(sys._MEIPASS) # type: ignore
+        else:
+            # Chemin normal en dev
+            base_path = Path(__file__).parent.parent
+        return base_path / relative_path
+
     # Fonction de récupération du dossier
     def choisir_dossier() -> None :
         dossier = filedialog.askdirectory()
         if dossier:
             dossier_var.set(dossier)
     
+    # Fonction d'appel au renommeur
     def renommer_images() -> None :
         dossier = Path(dossier_var.get())
         date = date_var.get()
@@ -31,15 +44,17 @@ def main() -> None :
         renommer_dir(dossier, date, nom, int(val_start), order_by)
 
         messagebox.showinfo("Info", "Le renommage des fichiers s'est déroulé dans problème.")
-        return
-
-
 
 
     # Fenêtre principale
     window = tk.Tk()
     window.title("Renommeur de Photos")
     window.geometry("400x300")
+
+    # Icône au format PNG
+    icone_path = resource_path("assets/ico.png")
+    icone = tk.PhotoImage(file=icone_path)
+    window.iconphoto(True, icone)
 
     # Variables
     date_var = tk.StringVar()
