@@ -71,3 +71,39 @@ def order_files(files: list[Path], order: str = "Modifie", reverse: bool = False
             return sorted(files, key=lambda path: path.name, reverse=reverse)
         case _ :
             return files
+        
+
+def renommer_dir(dir: Path, date_prefix: str, nom_suffix: str, val_start: int, order_by: str = "Modifie")  -> None:
+    """Renomme les fichiers du répertoire avec un préfix, suffix, et un nombre
+
+    Parameters
+    ----------
+    dir : Path
+        Chemin du répertoire contenant les données
+        
+    date_prefix : str
+        Préfix du renommage
+        
+    nom_suffix : str
+        Suffix du renommage
+        
+    val_start : in
+        Valeur de départ de l'incrément des nombres
+    
+    order_by : str (defaut : "Modifie")
+        Clé de trie de la liste
+        valeurs possibles : "Modifie", "Cree", "Nom"
+        
+    Returns
+    ----------
+        None
+    """
+    files = get_all_files(dir)
+    ordered_files = order_files(files, order_by)
+
+    nb_fill = max(2, len(str(len(ordered_files))))
+
+    for index, file in enumerate(ordered_files) :
+        val = str(val_start + index).zfill(nb_fill)
+        new_name = date_prefix + " " + val + " " + nom_suffix
+        renommer(file, new_name)
