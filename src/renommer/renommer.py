@@ -73,7 +73,7 @@ def order_files(files: list[Path], order: str = "Modifie", reverse: bool = False
             return files
         
 
-def renommer_dir(dir: Path, date_prefix: str, nom_suffix: str, val_start: int, order_by: str = "Modifie")  -> None:
+def renommer_dir(dir: Path, date_prefix: str, nom_suffix: str, val_start: int, order_by: str = "Modifie", keep_extention: bool = True)  -> None:
     """Renomme les fichiers du répertoire avec un préfix, suffix, et un nombre
 
     Parameters
@@ -106,4 +106,6 @@ def renommer_dir(dir: Path, date_prefix: str, nom_suffix: str, val_start: int, o
     for index, file in enumerate(ordered_files) :
         val = str(val_start + index).zfill(nb_fill)
         new_name = date_prefix + " " + val + " " + nom_suffix
+        if keep_extention :
+            new_name = new_name + file.suffix
         renommer(file, new_name)

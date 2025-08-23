@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Photo_Renommer"
-version = "1.0.0"
+version = "1.0.1"
 description = "Renommeur de Photo"
 authors = [
   { name="Guillaume Delbarre" }
